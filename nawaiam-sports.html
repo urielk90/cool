@@ -60,7 +60,7 @@
 <body>
     <h1>Juego DISC - Elige tu propia aventura</h1>
     <div class="creditos">
-        Desarrollo hecho por <strong>Uriel Kreszes</strong> v2.
+        Desarrollo hecho por <strong>Uriel Kreszes</strong> v2.1.
     </div>
     <div id="juego">
         <!-- Aquí se cargan las preguntas y opciones -->
@@ -338,19 +338,34 @@
         function determinarPerfilFinal() {
             const { D, I, S, C } = puntajes;
 
+            // Determinar los dos perfiles con los puntajes más altos
+            const perfilesOrdenados = Object.entries({ D, I, S, C })
+                .sort((a, b) => b[1] - a[1])
+                .map(([perfil]) => perfil);
+
+            const [primero, segundo] = perfilesOrdenados;
+
             // Combinaciones para los 10 perfiles
-            if (D > I && D > S && D > C) return "D"; // Líder Decisivo
-            if (I > D && I > S && I > C) return "I"; // Motivador Inspirador
-            if (S > D && S > I && S > C) return "S"; // Colaborador Confiable
-            if (C > D && C > I && C > S) return "C"; // Estratega Analítico
+            if (primero === "D" && segundo === "I") return "DI"; // Visionario Innovador
+            if (primero === "I" && segundo === "D") return "DI"; // Visionario Innovador
 
-            if (D === I && D > S && D > C) return "DI"; // Visionario Innovador
-            if (I === S && I > D && I > C) return "IS"; // Mediador Armonioso
-            if (S === C && S > D && S > I) return "SC"; // Planificador Eficiente
-            if (D === C && D > I && D > S) return "DC"; // Solucionador de Problemas
-            if (I === C && I > D && I > S) return "IC"; // Comunicador Persuasivo
+            if (primero === "I" && segundo === "S") return "IS"; // Mediador Armonioso
+            if (primero === "S" && segundo === "I") return "IS"; // Mediador Armonioso
 
-            return "DISC"; // Líder Equilibrado (empate en todos)
+            if (primero === "S" && segundo === "C") return "SC"; // Planificador Eficiente
+            if (primero === "C" && segundo === "S") return "SC"; // Planificador Eficiente
+
+            if (primero === "D" && segundo === "C") return "DC"; // Solucionador de Problemas
+            if (primero === "C" && segundo === "D") return "DC"; // Solucionador de Problemas
+
+            if (primero === "I" && segundo === "C") return "IC"; // Comunicador Persuasivo
+            if (primero === "C" && segundo === "I") return "IC"; // Comunicador Persuasivo
+
+            if (primero === "D" && segundo === "S") return "DISC"; // Líder Equilibrado
+            if (primero === "S" && segundo === "D") return "DISC"; // Líder Equilibrado
+
+            // Si no hay una combinación clara, devolver el perfil con más puntos
+            return primero;
         }
 
         // Función para mostrar el resultado final
@@ -507,7 +522,7 @@
                         "Necesita ser más flexible y abierto a errores."
                     ],
                     desarrolloProfesional: [
-                        "Flexibilidad: Aprende a adaptarte a cambios y a aceptar imperfecciones.",
+                        "Flexibilidad: Aprende a manejar la incertidumbre y a adaptarte rápidamente.",
                         "Liderazgo colaborativo: Fomenta la participación y el empoderamiento del equipo.",
                         "Manejo del estrés: Practica técnicas para mantener la calma bajo presión."
                     ]
